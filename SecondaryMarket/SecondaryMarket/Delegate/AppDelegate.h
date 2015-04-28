@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class ICETutorialController;
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) UITabBarController    *tabbar;
 
+@property (strong, nonatomic) ICETutorialController *ICETviewController;
+-(void)setupLeveyTabBarController;
 
 @end
 
