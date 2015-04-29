@@ -32,6 +32,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     
+    
     //修改tabbar字体颜色和图标颜色
     
     [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor lightGrayColor], UITextAttributeTextColor, nil] forState:UIControlStateNormal];

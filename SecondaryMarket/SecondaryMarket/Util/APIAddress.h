@@ -73,4 +73,93 @@
  *  @return <#return value description#>
  */
 +(NSString*) ApiCreateUser;
+
+/**
+ *  获取会员信息
+ */
++(NSString*) ApiGetMemberByUserId;
+
+/**
+ *  编辑会员信息地址
+ */
++(NSString*) ApiModifyMemberByUserId;
+
+
+
+/*********************产品接口*********************/
+/**
+ *  获取产品类别
+ */
++(NSString*) ApiSearchPcategoryList;
+
+/**
+ *  获取产品列表
+ */
++(NSString*) ApiSearchProductList;
+
+/**
+ *  获取产品详情
+ */
++(NSString*) ApiSearchProductInfoById;
+
+/**
+ *  添加产品（含详情）
+ */
++(NSString*) ApiAddProduct;
+
+/**
+ *  更新产品（含详情）
+ */
++(NSString*) ApiUpdateProduct;
+
+/**
+ *  发布产品
+ */
++(NSString*) ApiReleaseProduct;
+
+/**
+ *  搜索产品列表
+ */
++(NSString*) ApiGetProductListByCond;
+
+
+
+/*********************收藏接口*********************/
+/**
+ *  添加收藏
+ */
++(NSString*) ApiAddCollect;
+
+/**
+ *  删除收藏
+ */
++(NSString*) ApiDeleteCollect;
+
+/**
+ *  获取收藏列表
+ */
++(NSString*) ApiSearchCollect;
+
+/*********************广告接口*********************/
+/**
+ *  获取广告列表
+ */
++(NSString*) ApiGetAdList;
+
+
+/*********************附件接口*********************/
+/**
+ *  上传附件
+ */
++(NSString*) ApiUploadAnnex;
+
+/**
+ *  删除附件
+ */
++(NSString*) ApiDeleteAnnex;
+
+/**
+ *  获得附件路径
+ */
++(NSString*) ApiGetAnnexUrl;
 @end

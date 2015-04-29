@@ -15,7 +15,6 @@
     #import <Foundation/Foundation.h>
     #import "MacroDefinition.h"
     #import "AFNetworking.h"
-    #import "JSONKit.h"
     #import "SliderViewController.h"
     #import "QHBasicViewController.h"
     #import "UIView+KGViewExtend.h"

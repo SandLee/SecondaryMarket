@@ -38,7 +38,7 @@
         NSDictionary *json=[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:&error];
         if(!error){
             successBlock(YES,json,@"");
-            if([json objectForKey:@"code"] &&[[json objectForKey:@"code"] intValue]==1){
+            if([json objectForKey:@"code"] &&[[[json objectForKey:@"code"] substringFromIndex:2]  intValue]==1){
                 successBlock(YES,[json objectForKey:@"data"],@"");
             }else{
                 successBlock(NO,nil,[json objectForKey:@"msg"]);
@@ -87,10 +87,10 @@
             json=[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:&nsError];
         }
         if(!nsError){
-            if([json objectForKey:@"result"] &&[[json objectForKey:@"result"] intValue]==1){
+            if([json objectForKey:@"code"] &&[[[json objectForKey:@"code"] substringFromIndex:2] intValue]==1){
                 successBlock(YES,[json objectForKey:@"data"],@"");
             }else{
-                successBlock(NO,nil,[json objectForKey:@"reason"]);
+                successBlock(NO,nil,[json objectForKey:@"msg"]);
             }
         }else{
             successBlock(NO,nil,nsError.description);

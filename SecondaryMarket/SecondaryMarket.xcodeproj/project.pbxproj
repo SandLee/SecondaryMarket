@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2EA5F9661AEF860600E3DE80 /* SecondaryMarketTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5F9651AEF860600E3DE80 /* SecondaryMarketTests.m */; };
 		2EA5FADB1AEF8D0D00E3DE80 /* IdentifierValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5F9A11AEF8D0D00E3DE80 /* IdentifierValidator.m */; };
-		2EA5FADC1AEF8D0D00E3DE80 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5F9A41AEF8D0D00E3DE80 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2EA5FADE1AEF8D0D00E3DE80 /* ToBuyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5F9AA1AEF8D0D00E3DE80 /* ToBuyView.m */; };
 		2EA5FADF1AEF8D0D00E3DE80 /* ToFavView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5F9AC1AEF8D0D00E3DE80 /* ToFavView.m */; };
 		2EA5FAE01AEF8D0D00E3DE80 /* ToSaleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5F9AE1AEF8D0D00E3DE80 /* ToSaleView.m */; };
@@ -102,8 +101,6 @@
 		2EA5FB461AEF8D0D00E3DE80 /* KGModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5FA751AEF8D0D00E3DE80 /* KGModal.m */; };
 		2EA5FB471AEF8D0D00E3DE80 /* LeveyPopListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5FA781AEF8D0D00E3DE80 /* LeveyPopListView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2EA5FB481AEF8D0D00E3DE80 /* LeveyPopListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5FA7A1AEF8D0D00E3DE80 /* LeveyPopListViewCell.m */; };
-		2EA5FB491AEF8D0D00E3DE80 /* PAPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5FA7D1AEF8D0D00E3DE80 /* PAPreferences.m */; };
-		2EA5FB4A1AEF8D0D00E3DE80 /* PAPropertyDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5FA7F1AEF8D0D00E3DE80 /* PAPropertyDescriptor.m */; };
 		2EA5FB4B1AEF8D0D00E3DE80 /* UICollectionView+XHIndexPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5FA831AEF8D0D00E3DE80 /* UICollectionView+XHIndexPath.m */; };
 		2EA5FB4C1AEF8D0D00E3DE80 /* UIView+XHViewFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5FA851AEF8D0D00E3DE80 /* UIView+XHViewFrame.m */; };
 		2EA5FB4D1AEF8D0D00E3DE80 /* XHNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5FA881AEF8D0D00E3DE80 /* XHNavigationController.m */; };
@@ -291,8 +288,6 @@
 		2EA5F9651AEF860600E3DE80 /* SecondaryMarketTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondaryMarketTests.m; sourceTree = "<group>"; };
 		2EA5F9A01AEF8D0D00E3DE80 /* IdentifierValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdentifierValidator.h; sourceTree = "<group>"; };
 		2EA5F9A11AEF8D0D00E3DE80 /* IdentifierValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdentifierValidator.m; sourceTree = "<group>"; };
-		2EA5F9A31AEF8D0D00E3DE80 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
-		2EA5F9A41AEF8D0D00E3DE80 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		2EA5F9A51AEF8D0D00E3DE80 /* MacroDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacroDefinition.h; sourceTree = "<group>"; };
 		2EA5F9A91AEF8D0D00E3DE80 /* ToBuyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToBuyView.h; sourceTree = "<group>"; };
 		2EA5F9AA1AEF8D0D00E3DE80 /* ToBuyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToBuyView.m; sourceTree = "<group>"; };
@@ -431,10 +426,6 @@
 		2EA5FA781AEF8D0D00E3DE80 /* LeveyPopListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeveyPopListView.m; sourceTree = "<group>"; };
 		2EA5FA791AEF8D0D00E3DE80 /* LeveyPopListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeveyPopListViewCell.h; sourceTree = "<group>"; };
 		2EA5FA7A1AEF8D0D00E3DE80 /* LeveyPopListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeveyPopListViewCell.m; sourceTree = "<group>"; };
-		2EA5FA7C1AEF8D0D00E3DE80 /* PAPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PAPreferences.h; sourceTree = "<group>"; };
-		2EA5FA7D1AEF8D0D00E3DE80 /* PAPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PAPreferences.m; sourceTree = "<group>"; };
-		2EA5FA7E1AEF8D0D00E3DE80 /* PAPropertyDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PAPropertyDescriptor.h; sourceTree = "<group>"; };
-		2EA5FA7F1AEF8D0D00E3DE80 /* PAPropertyDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PAPropertyDescriptor.m; sourceTree = "<group>"; };
 		2EA5FA821AEF8D0D00E3DE80 /* UICollectionView+XHIndexPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UICollectionView+XHIndexPath.h"; sourceTree = "<group>"; };
 		2EA5FA831AEF8D0D00E3DE80 /* UICollectionView+XHIndexPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+XHIndexPath.m"; sourceTree = "<group>"; };
 		2EA5FA841AEF8D0D00E3DE80 /* UIView+XHViewFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+XHViewFrame.h"; sourceTree = "<group>"; };
@@ -726,19 +717,9 @@
 			children = (
 				2EA5F9A01AEF8D0D00E3DE80 /* IdentifierValidator.h */,
 				2EA5F9A11AEF8D0D00E3DE80 /* IdentifierValidator.m */,
-				2EA5F9A21AEF8D0D00E3DE80 /* JSON解析 */,
 				2EA5F9A51AEF8D0D00E3DE80 /* MacroDefinition.h */,
 			);
 			path = Constant;
-			sourceTree = "<group>";
-		};
-		2EA5F9A21AEF8D0D00E3DE80 /* JSON解析 */ = {
-			isa = PBXGroup;
-			children = (
-				2EA5F9A31AEF8D0D00E3DE80 /* JSONKit.h */,
-				2EA5F9A41AEF8D0D00E3DE80 /* JSONKit.m */,
-			);
-			path = "JSON解析";
 			sourceTree = "<group>";
 		};
 		2EA5F9A81AEF8D0D00E3DE80 /* toMy */ = {
@@ -1126,7 +1107,6 @@
 				2EA5FA701AEF8D0D00E3DE80 /* imagetextView */,
 				2EA5FA731AEF8D0D00E3DE80 /* KGModal */,
 				2EA5FA761AEF8D0D00E3DE80 /* LeveyPopListView */,
-				2EA5FA7B1AEF8D0D00E3DE80 /* PAPreferences */,
 				2EA5FA801AEF8D0D00E3DE80 /* PinterestAnimator */,
 				2EA5FAA31AEF8D0D00E3DE80 /* QCheckbox */,
 				2EA5FAAA1AEF8D0D00E3DE80 /* QCSlideSwitchView */,
@@ -1217,17 +1197,6 @@
 				2EA5FA7A1AEF8D0D00E3DE80 /* LeveyPopListViewCell.m */,
 			);
 			path = LeveyPopListView;
-			sourceTree = "<group>";
-		};
-		2EA5FA7B1AEF8D0D00E3DE80 /* PAPreferences */ = {
-			isa = PBXGroup;
-			children = (
-				2EA5FA7C1AEF8D0D00E3DE80 /* PAPreferences.h */,
-				2EA5FA7D1AEF8D0D00E3DE80 /* PAPreferences.m */,
-				2EA5FA7E1AEF8D0D00E3DE80 /* PAPropertyDescriptor.h */,
-				2EA5FA7F1AEF8D0D00E3DE80 /* PAPropertyDescriptor.m */,
-			);
-			path = PAPreferences;
 			sourceTree = "<group>";
 		};
 		2EA5FA801AEF8D0D00E3DE80 /* PinterestAnimator */ = {
@@ -2050,7 +2019,6 @@
 				2EA5FAE31AEF8D0D00E3DE80 /* UIView+KGViewExtend.m in Sources */,
 				2EA5FB5F1AEF8D0D00E3DE80 /* DMCustomModalViewController.m in Sources */,
 				2EA5FB541AEF8D0D00E3DE80 /* XHPinterest.m in Sources */,
-				2EA5FB4A1AEF8D0D00E3DE80 /* PAPropertyDescriptor.m in Sources */,
 				2EA5FB691AEF8D0D00E3DE80 /* UIScrollView+UzysCircularProgressPullToRefresh.m in Sources */,
 				2EA5FB241AEF8D0D00E3DE80 /* VerifyViewController.m in Sources */,
 				2EA5FB6D1AEF8D0D00E3DE80 /* UIImage+BlurGlass.m in Sources */,
@@ -2058,7 +2026,6 @@
 				2EA5FB1C1AEF8D0D00E3DE80 /* PinteretDetailsViewController.m in Sources */,
 				2EA5FB221AEF8D0D00E3DE80 /* RegViewController.m in Sources */,
 				2EA5FB621AEF8D0D00E3DE80 /* UnderLineLabel.m in Sources */,
-				2EA5FADC1AEF8D0D00E3DE80 /* JSONKit.m in Sources */,
 				2EA5FB4C1AEF8D0D00E3DE80 /* UIView+XHViewFrame.m in Sources */,
 				2EA5FB081AEF8D0D00E3DE80 /* ICETutorialController.m in Sources */,
 				2EA5FB5D1AEF8D0D00E3DE80 /* SKSplashView.m in Sources */,
@@ -2075,7 +2042,6 @@
 				2EA5FB481AEF8D0D00E3DE80 /* LeveyPopListViewCell.m in Sources */,
 				2EA5FB5B1AEF8D0D00E3DE80 /* QCSlideSwitchView.m in Sources */,
 				2EA5FB391AEF8D0D00E3DE80 /* CBTextView.m in Sources */,
-				2EA5FB491AEF8D0D00E3DE80 /* PAPreferences.m in Sources */,
 				2EA5FB531AEF8D0D00E3DE80 /* CHTCollectionViewWaterfallLayout.m in Sources */,
 				2EA5FB5E1AEF8D0D00E3DE80 /* SliderViewController.m in Sources */,
 				2EA5FB6A1AEF8D0D00E3DE80 /* UzysRadialProgressActivityIndicator.m in Sources */,
