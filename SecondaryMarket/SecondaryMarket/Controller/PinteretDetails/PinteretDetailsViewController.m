@@ -11,7 +11,7 @@
 #import "MacroDefinition.h"
 #import "YIFullScreenScroll.h"
 #import "PintersetDetailsCell.h"
-
+#import "AppDelegate.h"
 #import "XHPinterest.h"
 
 #define kXHHorizontalPageViewCellIdentify @"XHHorizontalPageViewCellIdentify"
@@ -41,7 +41,8 @@
         
         _collectionView.pagingEnabled = YES;
         [_collectionView registerClass:[PintersetDetailsCell class] forCellWithReuseIdentifier:kXHHorizontalPageViewCellIdentify];
-        [_collectionView setCurrentIndexPath:self.indexPath];
+//        [_collectionView setCurrentIndexPath:self.indexPath];
+        [_collectionView setCurrentIndexPath:_collectionView indexPath:self.indexPath];
         
         [_collectionView performBatchUpdates:^{
             [_collectionView reloadData];
@@ -137,11 +138,21 @@
 #pragma mark - XHTransitionProtocol
 
 - (CGPoint)pageViewCellScrollViewContentOffset {
+    
     return self.pullOffset;
 }
 
 - (UICollectionView *)transitionCollectionView {
-    return self.collectionView;
+    AppDelegate *delegate=(AppDelegate*)[[UIApplication sharedApplication]delegate];
+    if (delegate.bHomePageSkipDetails) {
+        return self.collectionView;
+    }
+    else
+    {
+        PintersetDetailsCell *collectionCell = (PintersetDetailsCell *)[self.collectionView cellForItemAtIndexPath:self.indexPath];
+        
+        return collectionCell.collectionView;
+    }
 }
 
 #pragma mark - UIScrollView Delegate
@@ -152,7 +163,7 @@
     
     if (index == 0) {
         self.indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-        [self.collectionView setCurrentIndexPath:self.indexPath];
+        [self.collectionView setCurrentIndexPath:self.collectionView indexPath:self.indexPath];
         
     }
 }
@@ -193,20 +204,19 @@
 //    collectionCell.delegate = self;
     
     collectionCell.pinterest = self.items[indexPath.row];
-    collectionCell.didSelectedSubItemAction = ^(UICollectionView *collectionView,XHPinterest *currentPinterest,NSIndexPath* indexPath) {
+    
+    collectionCell.didSelectedSubItemAction = ^(UICollectionView* collection,XHPinterest *currentPinterest,NSIndexPath* indexPath) {
         
-        /**
-         *  用于切换视图
-         */
-        self.navigationController.navigationBarHidden = NO;
-        PinteretDetailsViewController *PinteretDetailsView = [[PinteretDetailsViewController alloc] initWithCollectionViewFlowLayout:[self pageViewControllerLayout] currentIndexPath:indexPath];
+        //new
+        AppDelegate *delegate=(AppDelegate*)[[UIApplication sharedApplication]delegate];
+        delegate.bHomePageSkipDetails = NO;
+        PinteretDetailsViewController *PinteretDetails = [[PinteretDetailsViewController alloc] initWithCollectionViewFlowLayout:[self pageViewControllerLayout] currentIndexPath:indexPath];
         
-        PinteretDetailsView.items = self.items;
+        PinteretDetails.items = self.items;
         
-        [collectionView setCurrentIndexPath:indexPath];
-        
-        [self.navigationController pushViewController:PinteretDetailsView animated:YES];
-        
+        //    [collectionView setCurrentIndexPath:indexPath];
+        [collection setCurrentIndexPath:collectionView indexPath:indexPath];
+        [self.navigationController pushViewController:PinteretDetails animated:YES];
         
     };
 //    self.fullScreenScroll = nil;
@@ -277,11 +287,14 @@
         position = UICollectionViewScrollPositionTop;
     }
     NSIndexPath *currentIndexPath = [NSIndexPath indexPathForRow:pageIndex inSection:0];
-    [self.collectionView setCurrentIndexPath:currentIndexPath];
+    PintersetDetailsCell *collectionCell = (PintersetDetailsCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
+    [collectionCell.collectionView setCurrentIndexPath:collectionCell.collectionView indexPath:currentIndexPath];
     if (pageIndex < 2) {
-        [self.collectionView setContentOffset:CGPointZero animated:NO];
+        [collectionCell.collectionView setContentOffset:CGPointZero animated:NO];
     } else {
-        [self.collectionView scrollToItemAtIndexPath:currentIndexPath atScrollPosition:position animated:NO];
+        
+        
+        [collectionCell.collectionView scrollToItemAtIndexPath:currentIndexPath atScrollPosition:position animated:NO];
     }
 }
 @end

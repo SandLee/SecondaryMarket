@@ -211,7 +211,8 @@
         position = UICollectionViewScrollPositionTop;
     }
     NSIndexPath *currentIndexPath = [NSIndexPath indexPathForRow:pageIndex inSection:0];
-    [self.collectionView setCurrentIndexPath:currentIndexPath];
+//    [self.collectionView setCurrentIndexPath:currentIndexPath];
+    [self.collectionView setCurrentIndexPath:self.collectionView indexPath:currentIndexPath];
     if (pageIndex < 2) {
         [self.collectionView setContentOffset:CGPointZero animated:NO];
     } else {
@@ -233,7 +234,8 @@
     
     PinteretDetailsView.items = self.items;
     
-    [collectionView setCurrentIndexPath:indexPath];
+//    [collectionView setCurrentIndexPath:indexPath];
+    [collectionView setCurrentIndexPath:collectionView indexPath:indexPath];
     
     [self.navigationController pushViewController:PinteretDetailsView animated:YES];
 }

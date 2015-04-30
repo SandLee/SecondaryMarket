@@ -43,9 +43,10 @@
     
     UIViewController *popedViewController = self.viewControllers[childrenCount - 1];
     UICollectionView *popView  = [popedViewController valueForKey:@"collectionView"];
-    NSIndexPath *indexPath = [popView currentIndexPath];
+    NSIndexPath *indexPath = [popView currentIndexPath:popView];
+    
     [toViewController viewWillAppearWithPageIndex:indexPath.row];
-    [toView setCurrentIndexPath:[popView currentIndexPath]];
+    [toView setCurrentIndexPath:toView indexPath:[popView currentIndexPath:popView]];
     
     return [super popViewControllerAnimated:animated];
 }

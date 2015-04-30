@@ -12,17 +12,19 @@
 
 #import "UICollectionView+XHIndexPath.h"
 #import <objc/runtime.h>
-
-static NSString * const kXHIndexPathKey = @"XHIndexPathKey";
+//static NSString * k=nil;
+static NSString * kXHIndexPathKey = nil;
 
 @implementation UICollectionView (XHIndexPath)
 
 
-- (void)setCurrentIndexPath:(NSIndexPath *)indexPath {
+- (void)setCurrentIndexPath:(UICollectionView*)collection indexPath: (NSIndexPath *)indexPath {
+    kXHIndexPathKey = [NSString stringWithFormat:@"%p",collection];
     objc_setAssociatedObject(self, &kXHIndexPathKey, indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSIndexPath *)currentIndexPath {
+- (NSIndexPath *)currentIndexPath:(UICollectionView*)collection {
+    kXHIndexPathKey = [NSString stringWithFormat:@"%p",collection];
     NSInteger index = self.contentOffset.x / self.frame.size.width;
     
     NSIndexPath *indexPath = objc_getAssociatedObject(self, &kXHIndexPathKey);

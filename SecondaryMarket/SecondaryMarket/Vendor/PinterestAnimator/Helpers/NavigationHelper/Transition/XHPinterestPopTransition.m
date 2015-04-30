@@ -23,7 +23,7 @@
     UIView *containerView = [transitionContext containerView];
     
     UIView *toView = toViewController.view;
-    
+    DLog(@"toView.frame = %@",NSStringFromCGRect(toView.frame));
     [containerView addSubview:toView];
     toView.hidden = YES;
     
@@ -34,7 +34,7 @@
     
     [waterFallView layoutIfNeeded];
     
-    NSIndexPath *indexPath = pageView.currentIndexPath;
+    NSIndexPath *indexPath = [pageView currentIndexPath:pageView];
     
     UIView <XHTansitionWaterfallGridViewProtocol> *gridView = (UIView <XHTansitionWaterfallGridViewProtocol> *)([waterFallView cellForItemAtIndexPath:indexPath]);
     
@@ -49,6 +49,7 @@
     
     CGFloat animationScale = [self animationScale];
     
+    DLog(@"animationScale = %f",animationScale);
     snapShot.transform = CGAffineTransformMakeScale(animationScale, animationScale);
     
     CGFloat pullOffsetY = [(UIViewController <XHHorizontalPageViewControllerProtocol> *)fromViewController pageViewCellScrollViewContentOffset].y;
@@ -58,15 +59,16 @@
     
     [containerView addSubview:snapShot];
     
-    
+    CGFloat width = toView.frame.size.width;
+    CGFloat height = toView.frame.size.height;
     toView.hidden = NO;
     
     toView.alpha = 0.0;
     toView.transform = snapShot.transform;
-    
     toView.frame = CGRectMake(-(leftUpperPoint.x * animationScale), -((leftUpperPoint.y-offsetY) * animationScale + pullOffsetY+offsetY),
-                              toView.frame.size.width, toView.frame.size.height);
+                              width, height);
     
+    DLog(@"toView.frame = %@",NSStringFromCGRect(toView.frame));
     
     UIView *whiteViewContainer = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     

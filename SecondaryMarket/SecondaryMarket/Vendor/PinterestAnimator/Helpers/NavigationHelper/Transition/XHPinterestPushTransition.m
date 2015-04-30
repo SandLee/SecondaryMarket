@@ -32,7 +32,7 @@
     [containerView addSubview:fromView];
     [containerView addSubview:toView];
     
-    NSIndexPath *indexPath = [waterFallView currentIndexPath];
+    NSIndexPath *indexPath = [waterFallView currentIndexPath:waterFallView];
     
     UIView <XHTansitionWaterfallGridViewProtocol> *gridView = (UIView <XHTansitionWaterfallGridViewProtocol> *)([waterFallView cellForItemAtIndexPath:indexPath]);
     

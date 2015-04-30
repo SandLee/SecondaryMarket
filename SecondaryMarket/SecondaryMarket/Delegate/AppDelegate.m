@@ -31,11 +31,14 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
+    self.bHomePageSkipDetails = YES;
     
     
     //修改tabbar字体颜色和图标颜色
     
     [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor lightGrayColor], UITextAttributeTextColor, nil] forState:UIControlStateNormal];
+    
+    
     [[SUHelper sharedInstance] sysInit:^(BOOL success) {
         
         if(success) {
@@ -60,8 +63,7 @@
     else
     {
         [self setupICETutorialController];
-        //        ViewController* viewcontroller = [[ViewController alloc] init];
-        //        self.window.rootViewController = viewcontroller;
+        
     }
     
     //    [self createTabbar];

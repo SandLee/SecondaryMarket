@@ -20,7 +20,7 @@
 @class PinteretDetailsViewController;
 // Block
 typedef void(^XHPullDownAction)(CGPoint offset);
-typedef void(^XHDidSelectedSubItemAction)(UICollectionView *collectionView,XHPinterest *currentPinterest,NSIndexPath *indexPath);
+typedef void(^XHDidSelectedSubItemAction)(UICollectionView* collection,XHPinterest *currentPinterest,NSIndexPath* indexPath);
 
 @interface PintersetDetailsCell : UICollectionViewCell<XHTansitionWaterfallGridViewProtocol>
 

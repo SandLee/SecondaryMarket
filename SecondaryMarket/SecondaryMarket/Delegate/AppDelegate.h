@@ -12,7 +12,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UITabBarController    *tabbar;
-
+@property (assign, nonatomic) BOOL bHomePageSkipDetails;
 @property (strong, nonatomic) ICETutorialController *ICETviewController;
 -(void)setupLeveyTabBarController;
 

@@ -19,13 +19,13 @@
  *
  *  @param indexPath 目标indexPath
  */
-- (void)setCurrentIndexPath:(NSIndexPath *)indexPath;
+- (void)setCurrentIndexPath:(UICollectionView*)collection indexPath: (NSIndexPath *)indexPath;
 
 /**
  *  获取上述方法某一indexPath，把记录起来的拿回来用
  *
  *  @return 返回记录的indexPath
  */
-- (NSIndexPath *)currentIndexPath;
+- (NSIndexPath *)currentIndexPath:(UICollectionView*)collection;
 
 @end
