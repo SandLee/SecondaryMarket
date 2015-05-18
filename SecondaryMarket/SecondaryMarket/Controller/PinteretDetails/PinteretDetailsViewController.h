@@ -15,6 +15,11 @@
 
 @property (nonatomic, strong) NSMutableArray *items;
 
+@property (nonatomic, strong) NSString* DetailsKey;
+
+@property (nonatomic, strong) PintersetDetailsCell *collectionCell;
+
+@property (nonatomic, strong) NSString* productId;
 - (instancetype)initWithCollectionViewFlowLayout:(UICollectionViewFlowLayout *)collectionViewFlowLayout currentIndexPath:(NSIndexPath *)indexPath;
 
 @end

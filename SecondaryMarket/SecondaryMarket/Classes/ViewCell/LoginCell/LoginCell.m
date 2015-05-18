@@ -54,6 +54,26 @@
     [self.LoginBtn setBackgroundImage:[UIImage imageNamed:@"login_btn.png"] forState:UIControlStateNormal];
     [self.LoginBtn setBackgroundImage:[UIImage imageNamed:@"login_btn.png"] forState:UIControlStateHighlighted];
     [self.LoginBtn addTarget:self action:@selector(buttonLogin:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    self.viewShaker = [[AFViewShaker alloc] initWithViewsArray:self.allTextFields];
+    
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    if ([defaults boolForKey:@"isRemember"] == YES) {
+        self.RemembBox.selected = YES;
+        self.UserNameField.text = [defaults objectForKey:@"username"];
+        NSError *error;
+        NSString* password = [SFHFKeychainUtils getPasswordForUsername:self.UserNameField.text andServiceName:[ConfigManager sharedInstance].PubServer_URL error:&error];
+        
+        
+        if(error || !password){
+            NSLog(@"❌从Keychain里获取密码出错：%@", error);
+        }
+        else{
+            self.PasWordField.text = password;
+            NSLog(@"✅从Keychain里获取密码成功！密码为%@",self.PasWordField.text);
+        }
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -68,7 +88,12 @@
 }
 -(void)buttonLogin:(UIButton*)sender
 {
+    
+    
     NSLog(@"登陆");
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    
+    
     NSString *info = @"";
     if ([self.UserNameField.text length] == 0) {
         info = @"请输入账号";
@@ -77,21 +102,61 @@
         info = @"请输入密码";
     }
     if (info.length != 0) {
-//        [SGInfoAlert showInfo:info
-//                      bgColor:[[UIColor darkGrayColor] CGColor]
-//                       inView:self.view
-//                     vertical:0.7];
+        [self.viewShaker shakeWithDuration:0.6 completion:^{
+                    [[[UIAlertView alloc] initWithTitle:@"登陆"
+                                                message:info
+                                               delegate:self
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil] show];
+        }];
         return;
     }
 
     NSString* url = [NSString stringWithFormat:@"%@?loginName=%@&loginPwd=%@",[APIAddress ApiCheckLogin],self.UserNameField.text,self.PasWordField.text];
     
     DLog(@"url = %@",url);
+    
     [HttpClient asynchronousCommonJsonRequestWithProgress:url parameters:nil successBlock:^(BOOL success, id data, NSString *msg) {
         
-        DLog(@"data = %@",data);
+//        DLog(@"data = %@,msg = %@",data,[data objectForKey:@"msg"]);
+        if([data objectForKey:@"code"] &&[[[data objectForKey:@"code"] substringFromIndex:2] intValue]==1){
+            DLog(@"成功");
+            if (self.RemembBox.selected) {
+                [defaults setBool:YES forKey:@"isRemember"];
+                [defaults setObject:self.UserNameField.text forKey:@"username"];
+            }
+            else
+            {
+                [defaults setBool:NO forKey:@"isRemember"];
+                [defaults setObject:@"" forKey:@"username"];
+            }
+            [self saveUsenameAndPasswad:self.RemembBox.selected];
+            
+            AppDelegate *delegate=(AppDelegate*)[[UIApplication sharedApplication]delegate];
+            [delegate setupLeveyTabBarController];
+            
+        }
+        else
+        {
+            DLog(@"msg = %@",[data objectForKey:@"msg"]);
+            [self.viewShaker shakeWithDuration:0.6 completion:^{
+                        [[[UIAlertView alloc] initWithTitle:@"登陆"
+                                                    message:[data objectForKey:@"msg"]
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil] show];
+            }];
+        }
+        
     } failureBlock:^(NSString *description) {
         DLog(@"failureBlock");
+        [self.viewShaker shakeWithDuration:0.6 completion:^{
+                    [[[UIAlertView alloc] initWithTitle:@"登陆"
+                                                message:description
+                                               delegate:self
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil] show];
+        }];
     } progressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
         DLog(@"progressBlock");
     }];
@@ -116,5 +181,31 @@
     [self.UserNameField resignFirstResponder];
     [self.PasWordField resignFirstResponder];
     
+}
+
+-(void)saveUsenameAndPasswad:(BOOL)isSave
+{
+    NSError *error;
+    NSString* username;
+    NSString* password;
+    NSString* serviecname;
+    if (isSave) {
+        username = self.UserNameField.text;
+        password = self.PasWordField.text;
+        serviecname = [ConfigManager sharedInstance].PubServer_URL;
+    }
+    else
+    {
+        username = @"";
+        password = @"";
+        serviecname = @"";
+    }
+    BOOL saved = [SFHFKeychainUtils storeUsername:username andPassword:password forServiceName:serviecname updateExisting:YES error:&error];
+    
+    if (!saved) {
+        NSLog(@"❌Keychain保存密码时出错：%@", error);
+    }else{
+        NSLog(@"✅Keychain保存密码成功！");
+    }
 }
 @end

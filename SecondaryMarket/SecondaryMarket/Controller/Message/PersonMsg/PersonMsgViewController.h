@@ -10,7 +10,8 @@
 #import "BaseViewController.h"
 #import "PersonMsgCell.h"
 #import "CBTextView.h"
-@interface PersonMsgViewController : BaseViewController<ReplyPageDelegate>
+@interface PersonMsgViewController : BaseViewController<ReplyPageDelegate,UITableViewDelegate,UITableViewDataSource>
+@property(nonatomic,strong)UITableView* tableview;
 @property(nonatomic,retain)CBTextView *textView;
 
 @end

@@ -114,7 +114,7 @@
 @implementation HeaderView
 - (void)setPinterest:(XHPinterest *)pinterest {
     _pinterest = pinterest;
-        CGFloat imageHeight = pinterest.image.size.height * kXHScreenWidth / pinterest.image.size.width;
+    CGFloat imageHeight = [[pinterest.imageSize  objectForKey:@"height"] floatValue] * kXHScreenWidth/[[pinterest.imageSize  objectForKey:@"width"] floatValue];//pinterest.image.size.height * kXHScreenWidth / pinterest.image.size.width;
 
     self.tableview.tableHeaderView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), imageHeight);
         [self.tableview reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
@@ -170,9 +170,9 @@
             cell = [[DescribeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"celldes"];
         }
         cell.titlelab.text = self.pinterest.title;
-        cell.describelab.text = @"instagram.com";
-        cell.Daylab.text = @"added 1 day ago from ";
-        cell.icon.image = self.pinterest.image;
+        
+        [cell.icon setImageWithURL:[NSURL URLWithString:self.pinterest.imageURL]];
+//        cell.icon.image = self.pinterest.image;
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
     }
@@ -189,12 +189,13 @@
         [cell.contentView addSubview:icontitle];
         
         
-        icon.image = self.pinterest.image;
+//        icon.image = self.pinterest.image;
+        [icon setImageWithURL:[NSURL URLWithString:self.pinterest.imageURL]];
         icon.layer.masksToBounds = YES;
         icon.layer.cornerRadius = 15;
         icontitle.text = @"Add by Kelly Henshaw";
         
-        UILabel* line = [[UILabel alloc] initWithFrame:CGRectMake(0, 49.5, 320, 0.5)];
+        UILabel* line = [[UILabel alloc] initWithFrame:CGRectMake(0, 49.5, CGRectGetWidth(self.bounds), 0.5)];
         line.backgroundColor = [UIColor grayColor];
         [cell.contentView addSubview:line];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -214,12 +215,13 @@
         
         [cell.contentView addSubview:icontitle];
         
-        icon.image = self.pinterest.image;
+//        icon.image = self.pinterest.image;
+        [icon setImageWithURL:[NSURL URLWithString:self.pinterest.imageURL]];
         icon.layer.masksToBounds = YES;
         icon.layer.cornerRadius = 6;
         icontitle.text = @"Add to diy crafts";
         
-        UILabel* line = [[UILabel alloc] initWithFrame:CGRectMake(0, 49.5, 320, 0.5)];
+        UILabel* line = [[UILabel alloc] initWithFrame:CGRectMake(0, 49.5, CGRectGetWidth(self.bounds), 0.5)];
         line.backgroundColor = [UIColor grayColor];
         [cell.contentView addSubview:line];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -253,7 +255,7 @@
         icon2Num.text = @"5";
         [cell.contentView addSubview:icon2Num];
         
-        UILabel* line = [[UILabel alloc] initWithFrame:CGRectMake(0, 49.5, 320, 0.5)];
+        UILabel* line = [[UILabel alloc] initWithFrame:CGRectMake(0, 49.5, CGRectGetWidth(self.bounds), 0.5)];
         line.backgroundColor = [UIColor grayColor];
         [cell.contentView addSubview:line];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -281,7 +283,7 @@
 }
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    CGFloat imageHeight = self.pinterest.image.size.height * kXHScreenWidth / self.pinterest.image.size.width;
+    CGFloat imageHeight = [[self.pinterest.imageSize  objectForKey:@"height"] floatValue] * kXHScreenWidth/[[self.pinterest.imageSize  objectForKey:@"width"] floatValue];//self.pinterest.image.size.height * kXHScreenWidth / self.pinterest.image.size.width;
 
     tableViewHeader* headerView = [[tableViewHeader alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), imageHeight)];
 
@@ -291,7 +293,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    CGFloat imageHeight = self.pinterest.image.size.height * kXHScreenWidth / self.pinterest.image.size.width;
+    CGFloat imageHeight = [[self.pinterest.imageSize  objectForKey:@"height"] floatValue] * kXHScreenWidth/[[self.pinterest.imageSize  objectForKey:@"width"] floatValue];//self.pinterest.image.size.height * kXHScreenWidth / self.pinterest.image.size.width;
     return imageHeight;
 }
 //#pragma mark - GHMenu methods

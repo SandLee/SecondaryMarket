@@ -10,5 +10,5 @@
 
 @interface ToBuyView : UIView <UICollectionViewDataSource,UICollectionViewDelegate>
 @property(nonatomic,strong)UICollectionView* collectionView;
-
+@property (nonatomic, strong) NSMutableArray *items;
 @end

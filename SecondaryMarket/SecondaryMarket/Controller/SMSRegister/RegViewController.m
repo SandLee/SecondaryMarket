@@ -131,7 +131,7 @@
         NSString* url = [NSString stringWithFormat:@"%@?mobile=%@",[APIAddress ApiSendSMSCaptcha],self.telField.text];
         DLog(@"url = %@",url);
         [HttpClient asynchronousCommonJsonRequestWithProgress:url parameters:nil successBlock:^(BOOL success, id data, NSString *msg) {
-            if ([[data objectForKey:@"result"] intValue] == 1) {
+            if([data objectForKey:@"code"] &&[[[data objectForKey:@"code"] substringFromIndex:2] intValue]==1) {
                 [self presentViewController:verify animated:YES completion:^{
                     ;
                 }];
@@ -197,7 +197,19 @@
                                                                    style:UIBarButtonItemStyleBordered
                                                                   target:self
                                                                   action:@selector(clickLeftButton)];
-    [navigationItem setTitle:@"短信验证码注册"];
+    
+    
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    NSString* string = [defaults objectForKey:@"RegisterAndChange"];
+    if ([string isEqualToString:@"UserRegistration"]) {
+        [navigationItem setTitle:@"短信验证码注册"];
+    }
+    else if ([string isEqualToString:@"ForgotPassword"])
+    {
+        [navigationItem setTitle:@"短信修改密码"];
+    }
+    
+//    [navigationItem setTitle:@"短信验证码注册"];
     [navigationBar pushNavigationItem:navigationItem animated:NO];
     
     

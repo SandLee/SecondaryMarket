@@ -26,4 +26,8 @@
     #import "HttpClient.h"
     #import "APIAddress.h"
     #import "SMS_MBProgressHUD+Add.h"
+    #import "AppDelegate.h"
+    #import "SFHFKeychainUtils.h"
+    #import "MImageFile.h"
+    #import "UIImage+ResizeMagick.h"
 #endif

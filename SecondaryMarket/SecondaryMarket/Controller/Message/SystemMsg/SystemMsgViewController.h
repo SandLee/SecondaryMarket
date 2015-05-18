@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
-@interface SystemMsgViewController : BaseViewController
+@interface SystemMsgViewController : BaseViewController<UITableViewDelegate,UITableViewDataSource>
+@property(nonatomic,strong)UITableView* tableview;
 
 @end

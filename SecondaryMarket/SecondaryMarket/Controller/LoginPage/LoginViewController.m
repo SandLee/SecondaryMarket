@@ -22,11 +22,12 @@
     CGFloat statusBarHeight=0;
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0)
     {
-        statusBarHeight=20;
+//        statusBarHeight=20;
+        self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     
     //创建一个导航栏
-    UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0,0+statusBarHeight, self.view.frame.size.width, 44)];
+    UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0,0+statusBarHeight, self.view.frame.size.width, 64)];
     UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:nil];
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"返回"
                                                                    style:UIBarButtonItemStyleBordered
@@ -44,6 +45,12 @@
     self.tableview.dataSource = self;
     self.tableview.scrollEnabled = NO;
     
+    UIView* v_header = [[UIView alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.bounds), 200)];
+    //    v_header.backgroundColor = [UIColor lightGrayColor];
+    UIImageView* imageview = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, CGRectGetWidth(v_header.bounds)-2*20, CGRectGetHeight(v_header.bounds)-2*20)];
+    imageview.image = [UIImage imageNamed:@"1.jpeg"];
+    [v_header addSubview:imageview];
+    self.tableview.tableHeaderView=v_header;
     [self.tableview reloadData];
     
 }
@@ -64,7 +71,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return 2;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -79,19 +86,19 @@
 {
     return CGRectGetHeight(self.view.bounds) - CGRectGetHeight(self.tableview.tableHeaderView.bounds) - CGRectGetHeight(self.tableview.tableFooterView.bounds);
 }
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 180;
-}
--(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView* v_header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 200)];
-//    v_header.backgroundColor = [UIColor lightGrayColor];
-    UIImageView* imageview = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, CGRectGetWidth(v_header.bounds)-2*20, CGRectGetHeight(v_header.bounds)-2*20)];
-    imageview.image = [UIImage imageNamed:@"1.jpeg"];
-    [v_header addSubview:imageview];
-    return v_header;
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return 180;
+//}
+//-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    UIView* v_header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 200)];
+////    v_header.backgroundColor = [UIColor lightGrayColor];
+//    UIImageView* imageview = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, CGRectGetWidth(v_header.bounds)-2*20, CGRectGetHeight(v_header.bounds)-2*20)];
+//    imageview.image = [UIImage imageNamed:@"1.jpeg"];
+//    [v_header addSubview:imageview];
+//    return v_header;
+//}
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 44;
@@ -139,6 +146,9 @@
    
     NSLog(@"新用户注册");
     RegViewController* SMSRegister = [[RegViewController alloc] init];
+    
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    [defaults setObject:@"UserRegistration" forKey:@"RegisterAndChange"];
     [self presentViewController:SMSRegister animated:YES completion:^{
         
     }];
@@ -149,8 +159,13 @@
 {
     NSLog(@"忘记密码");
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"忘记密码" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-    [alertView show];
+    RegViewController* SMSRegister = [[RegViewController alloc] init];
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    [defaults setObject:@"ForgotPassword" forKey:@"RegisterAndChange"];
+    [self presentViewController:SMSRegister animated:YES completion:^{
+        
+    }];
+
 }
 /*
 #pragma mark - Navigation

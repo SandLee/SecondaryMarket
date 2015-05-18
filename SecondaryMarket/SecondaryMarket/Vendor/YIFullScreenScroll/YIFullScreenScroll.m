@@ -120,7 +120,7 @@ static char __isFullScreenScrollViewKey;
                   scrollView:(UIScrollView*)scrollView
                        style:(YIFullScreenScrollStyle)style
 {
-    DLog(@"initWithViewController _defaultNavBarTop ＝%f %@",_defaultNavBarTop,NSStringFromCGRect(scrollView.bounds));
+//    DLog(@"initWithViewController _defaultNavBarTop ＝%f %@",_defaultNavBarTop,NSStringFromCGRect(scrollView.bounds));
     self = [super init];
     if (self) {
         
@@ -175,7 +175,7 @@ static char __isFullScreenScrollViewKey;
 
 - (void)setScrollView:(UIScrollView *)scrollView
 {
-    DLog(@"setScrollView _defaultNavBarTop ＝%f %@",_defaultNavBarTop,NSStringFromCGRect(scrollView.bounds));
+//    DLog(@"setScrollView _defaultNavBarTop ＝%f %@",_defaultNavBarTop,NSStringFromCGRect(scrollView.bounds));
     if (scrollView != _scrollView) {
         
         if (_scrollView) {
@@ -287,7 +287,7 @@ static char __isFullScreenScrollViewKey;
         }];
     }
     else {
-        DLog(@"additionalNavBarShiftForIOS7StatusBar = %f",self.additionalNavBarShiftForIOS7StatusBar);
+//        DLog(@"additionalNavBarShiftForIOS7StatusBar = %f",self.additionalNavBarShiftForIOS7StatusBar);
         [self _layoutUIBarsWithDeltaY:-50-self.additionalNavBarShiftForIOS7StatusBar];
         self.areUIBarsAnimating = NO;
     }
@@ -536,8 +536,8 @@ static char __isFullScreenScrollViewKey;
             
             navBar.top = MIN(MAX(navBar.top-deltaY, _defaultNavBarTop-navBar.height-self.additionalNavBarShiftForIOS7StatusBar), _defaultNavBarTop+20);
 
-            DLog(@"navBar.top = %f",navBar.top);
-            DLog(@"navBar.top-deltaY = %f _defaultNavBarTop-navBar.height-self.additionalNavBarShiftForIOS7StatusBar = %f _defaultNavBarTop+20 = %f",navBar.top-deltaY,_defaultNavBarTop-navBar.height-self.additionalNavBarShiftForIOS7StatusBar,_defaultNavBarTop+20);
+//            DLog(@"navBar.top = %f",navBar.top);
+//            DLog(@"navBar.top-deltaY = %f _defaultNavBarTop-navBar.height-self.additionalNavBarShiftForIOS7StatusBar = %f _defaultNavBarTop+20 = %f",navBar.top-deltaY,_defaultNavBarTop-navBar.height-self.additionalNavBarShiftForIOS7StatusBar,_defaultNavBarTop+20);
             //
             // fade-out left/right/title navBar-subviews for style=Facebook
             // (NOTE: don't fade background or _UINavigationBarBackIndicatorView)
@@ -622,7 +622,7 @@ static char __isFullScreenScrollViewKey;
         // scrollIndicatorInsets
         UIEdgeInsets insets = scrollView.scrollIndicatorInsets;
         
-        DLog(@"isNavigationBarExisting ＝ %d",isNavigationBarExisting);
+//        DLog(@"isNavigationBarExisting ＝ %d",isNavigationBarExisting);
         if (isNavigationBarExisting && _shouldHideNavigationBarOnScroll) {
             insets.top = navBar.bottom-_defaultNavBarTop+self.additionalNavBarShiftForIOS7StatusBar ;
             
@@ -665,7 +665,7 @@ static char __isFullScreenScrollViewKey;
             
         }
         scrollView.frame = rect;
-        DLog(@"scrollView.frame= %@",NSStringFromCGRect(scrollView.frame));
+//        DLog(@"scrollView.frame= %@",NSStringFromCGRect(scrollView.frame));
 //        CGRect rect = scrollView.frame;
 //        rect.origin.y = 20;
 //        scrollView.frame = rect;
@@ -927,7 +927,7 @@ static char __isFullScreenScrollViewKey;
             // evaluate defaultNavBarTop when view is loaded
 //            _defaultNavBarTop = self.navigationBar.top;
             _defaultNavBarTop = 0;
-            DLog(@"_defaultNavBarTop = %f",_defaultNavBarTop);
+//            DLog(@"_defaultNavBarTop = %f",_defaultNavBarTop);
             //
             // comment-out:
             //

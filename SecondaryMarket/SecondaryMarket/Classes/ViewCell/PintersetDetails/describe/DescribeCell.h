@@ -10,8 +10,7 @@
 
 @interface DescribeCell : UITableViewCell
 @property(nonatomic,strong) UILabel* titlelab;
-@property(nonatomic,strong) UILabel* describelab;
-@property(nonatomic,strong) UILabel* Daylab;
+
 @property(nonatomic,strong) UIImageView* icon;
 @property(nonatomic,strong) UIView* view;
 @end

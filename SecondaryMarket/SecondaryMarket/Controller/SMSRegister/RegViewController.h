@@ -24,6 +24,7 @@ UITextFieldDelegate
 @property(nonatomic,strong) UIWindow* window;
 @property(nonatomic,strong) UIButton* next;
 
+
 -(void)nextStep;
 
 @end

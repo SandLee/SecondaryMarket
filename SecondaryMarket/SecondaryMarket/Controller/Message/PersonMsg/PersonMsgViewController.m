@@ -21,9 +21,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.title = @"个人信息";
+    
     self.PersonMsgCellNib = [UINib nibWithNibName:@"PersonMsgCell" bundle:nil];
     
-    
+    self.tableview =[[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)- 44 -64 - 64)];
+    self.tableview.delegate = self;
+    self.tableview.dataSource = self;
+    [self.view addSubview:self.tableview];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,12 +50,12 @@
     
     NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
     
-    [dateformatter setDateFormat:@"YYYYMMdd"];
+    [dateformatter setDateFormat:@"YYYY-MM-dd"];
     
     NSString *  locationString=[dateformatter stringFromDate:senddate];
     cell.DateLabel.text = locationString;
     cell.delegate = self;
-    cell.imageView.image = [UIImage imageNamed:@"1"];
+//    cell.imageView.image = [UIImage imageNamed:@"1"];
     cell.msgLabel.text = @"我想买你的物品可以吗";
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;

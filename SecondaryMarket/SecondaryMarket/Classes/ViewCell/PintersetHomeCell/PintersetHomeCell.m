@@ -141,6 +141,7 @@
 
 }
 - (UIView *)snapShotForTransition {
+//    DLog(@"waterfallContainerView.frame = %@",NSStringFromCGRect(self.waterfallContainerView.frame));
     XHWaterfallContainerView *snapShotView = [[XHWaterfallContainerView alloc] initWithFrame:self.waterfallContainerView.frame
                                                                                  cornerRadii:self.waterfallContainerView.cornerRadii];
     snapShotView.displayPinterest = self.waterfallContainerView.displayPinterest;
@@ -151,11 +152,22 @@
     
     NSLog(@"handeTap");
     if (tap.state == UIGestureRecognizerStateEnded) {
-//        if ([self.delegate respondsToSelector:@selector(GraphicButtondidSelectIndex:)]) {
-//            [self.delegate GraphicButtondidSelectIndex:self.indexPath];
-//        }
+        
+        [self HttpAddCollect];
         
     }
     
+}
+-(void)HttpAddCollect
+{
+    NSString *url = [NSString stringWithFormat:@"%@?collectId=test&collectorId=test&foreignId=tests1&collectType=test&collectState=test",[APIAddress ApiAddCollect]];
+    
+    [HttpClient asynchronousRequestWithProgress:url parameters:nil successBlock:^(BOOL success, id data, NSString *msg) {
+        DLog(@"data = %@ msg = %@",data,msg);
+    } failureBlock:^(NSString *description) {
+        DLog(@"description = %@",description);
+    } progressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+        
+    }];
 }
 @end

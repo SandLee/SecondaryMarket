@@ -16,7 +16,8 @@
 #import "LoginViewController.h"
 #import "SearchPageViewController.h"
 #import "MessageViewController.h"
-#import "ToMyViewController.h"
+
+#import "toMyTableViewController.h"
 
 @interface AppDelegate ()
 
@@ -62,7 +63,9 @@
     }
     else
     {
-        [self setupICETutorialController];
+        
+//        [self setupICETutorialController];
+        [self setViewController];
         
     }
     
@@ -98,15 +101,9 @@
     PintersetHomeViewController* homepage = [[PintersetHomeViewController alloc] init];
     homepage.title = @"首页";
     XHNavigationController *navhomepage = [[XHNavigationController alloc] initWithRootViewController:homepage];
-    //        navhomepage.navigationBarHidden = YES;
     navhomepage.navigationBarHidden = YES;
     
     
-    //    [[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];
-    
-    //    RegViewController* SMSRegister = [[RegViewController alloc] init];
-    //    SMSRegister.title = @"注册";
-    //    UINavigationController* navSMSRegister = [[UINavigationController alloc] initWithRootViewController:SMSRegister];
     SearchPageViewController* SearchPage = [[SearchPageViewController alloc] initWithNibName:@"SearchPageViewController" bundle:nil];
     SearchPage.title = @"搜索";
     UINavigationController* navSearchPage = [[UINavigationController alloc] initWithRootViewController:SearchPage];
@@ -116,26 +113,19 @@
     UINavigationController* navMessageView = [[UINavigationController alloc] initWithRootViewController:MessageView];
     
     
-    ToMyViewController* ToMyView = [[ToMyViewController alloc] initWithNibName:@"ToMyViewController" bundle:nil];
+    
+    
+    toMyTableViewController* ToMyView = [[toMyTableViewController alloc] initWithNibName:@"toMyTableViewController" bundle:nil];
     ToMyView.title = @"个人";
     UINavigationController* navToMyView = [[UINavigationController alloc] initWithRootViewController:ToMyView];
     
     NSArray *ctrlArr = [NSArray arrayWithObjects:navhomepage,navSearchPage,navMessageView,navToMyView,nil];
     
-    
-    //    NSMutableDictionary *imgDic = [NSMutableDictionary dictionaryWithCapacity:2];
-    //    [imgDic setObject:[UIImage imageNamed:@"menu_btn_category_normal"] forKey:@"Default"];
-    //    [imgDic setObject:[UIImage imageNamed:@"menu_btn_category_click"] forKey:@"Seleted"];
-    //
-    //    NSMutableDictionary *imgDic1 = [NSMutableDictionary dictionaryWithCapacity:2];
-    //    [imgDic1 setObject:[UIImage imageNamed:@"menu_btn_category_normal"] forKey:@"Default"];
-    //    [imgDic1 setObject:[UIImage imageNamed:@"menu_btn_category_click"] forKey:@"Seleted"];
-    
-    //    NSArray *imgArr = [NSArray arrayWithObjects:imgDic,imgDic1,nil];
+   
     
     
     self.tabbar = [[UITabBarController alloc] init];
-    CGRect frame = CGRectMake(0, 0, 320, 49);
+    CGRect frame = CGRectMake(0, 0, CGRectGetWidth(self.window.bounds), 49);
     UIImageView *v = [[UIImageView alloc] initWithFrame:frame];
     v.image = [UIImage imageNamed:@"tabbar_background.png"];
     //    v.backgroundColor = [UIColor whiteColor];
@@ -170,6 +160,11 @@
     
     //    self.window.rootViewController =SMSRegister;
     
+}
+-(void)setViewController
+{
+    ViewController* Controller = [[ViewController alloc] init];
+    self.window.rootViewController = Controller;
 }
 //登陆
 -(void)setupLoginViewController
@@ -233,8 +228,8 @@
         NSLog(@"Button 1 pressed.");
         [weakSelf.ICETviewController stopScrolling];
         
-        //        [weakSelf setupLoginViewController];
-        [weakSelf setupLeveyTabBarController];
+                [weakSelf setupLoginViewController];
+//        [weakSelf setupLeveyTabBarController];
         //        LoginViewController* LoginView = [[LoginViewController alloc] init];
         //        [weakSelf.ICETviewController presentViewController:LoginView animated:YES completion:^{
         ////

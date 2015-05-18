@@ -12,29 +12,20 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    ToBuyView* tobuy = [[ToBuyView alloc] initWithFrame:CGRectMake(0, 0, 320, 30/2*145)];
-    ToSaleView* toSale = [[ToSaleView alloc] initWithFrame:CGRectMake(0, 0, 320, 30/2*145)];
-    ToFavView* tofav = [[ToFavView alloc] initWithFrame:CGRectMake(0, 0, 320, 30/2*145)];
-    NSArray *views =@[tobuy,toSale,tofav];
-    NSArray *names =@[@"我要买",@"我要卖",@"收藏"];
-    //创建使用
-    DLog(@"frame = %@",NSStringFromCGRect(self.bounds));
-    self.scroll =[XLScrollViewer scrollWithFrame:CGRectMake(0, 0, 320, 30/2*145) withViews:views withButtonNames:names withThreeAnimation:111];//三中动画都选择
+    self.backgroundColor =[UIColor whiteColor];
     
-    //自定义各种属性。。打开查看
-    self.scroll.xl_topBackImage =[UIImage imageNamed:@"1.jpeg"];
-    self.scroll.xl_topBackColor =[UIColor yellowColor];
-    self.scroll.xl_sliderColor =[UIColor clearColor];
-    self.scroll.xl_buttonColorNormal =[UIColor redColor];
-    self.scroll.xl_buttonColorSelected =[UIColor yellowColor];
-    self.scroll.xl_buttonFont =18;
-    self.scroll.xl_buttonToSlider =50;
-    self.scroll.xl_sliderHeight =50;
-    self.scroll.xl_topHeight =50;
-    self.scroll.xl_isSliderCorner =NO;
-    self.scroll.xl_isScaleButton = YES;
-    //加入控制器视图
-    [self addSubview:self.scroll];
+    UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
+    [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+    self.collectionView.backgroundColor = [UIColor whiteColor];
+    //设置代理
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    self.collectionView.scrollEnabled = NO;
+    [self addSubview:self.collectionView];
+    
+    //注册cell和ReusableView（相当于头部）
+    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -42,5 +33,41 @@
 
     // Configure the view for the selected state
 }
-
+//定义展示的UICollectionViewCell的个数
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return 10;
+}
+//定义展示的Section的个数
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+//每个UICollectionView展示的内容
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString * CellIdentifier = @"cell";
+    UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    cell.backgroundColor = [UIColor colorWithRed:((10 * indexPath.row) / 255.0) green:((20 * indexPath.row)/255.0) blue:((30 * indexPath.row)/255.0) alpha:1.0f];
+    return cell;
+}
+#pragma mark --UICollectionViewDelegateFlowLayout
+//定义每个UICollectionView 的大小
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(145, 145);
+}
+//定义每个UICollectionView 的 margin
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(5, 10, 5, 5);
+}
+#pragma mark --UICollectionViewDelegate
+//UICollectionView被选中时调用的方法
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewCell * cell = (UICollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    cell.backgroundColor = [UIColor whiteColor];
+}
 @end

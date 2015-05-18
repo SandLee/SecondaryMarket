@@ -14,4 +14,6 @@
 
 @property (nonatomic, strong) NSMutableArray *items;
 
+@property (nonatomic, strong) NSMutableArray *data;
+
 @end

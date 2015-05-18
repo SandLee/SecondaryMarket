@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface ArticlesPublishedViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+#import "TSLocateView.h"
+#import "MessagePhotoView.h"
+#import "ClassifyCell.h"
+@interface ArticlesPublishedViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,MessagePhotoViewDelegate,TSLocateDelegate>
 @property(nonatomic,strong)IBOutlet UITableView* tableview;
+@property(nonatomic,strong) MessagePhotoView* photoView;
 
 @end

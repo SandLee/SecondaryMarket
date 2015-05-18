@@ -22,7 +22,7 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
 //    self.title = @"";
-    _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 320, 40)];
+    _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 40)];
     _searchBar.placeholder = @"Search";   //设置占位符
     _searchBar.delegate = self;   //设置控件代理
     [_searchBar setShowsCancelButton:YES animated:YES];
@@ -74,6 +74,7 @@
 }
 - (void) hideKeyboard {
     [_searchBar resignFirstResponder];
+    
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -146,7 +147,17 @@
     }
     return YES;
 }
-/*
+
+//搜索框中的内容发生改变时 回调（即要搜索的内容改变）
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    NSLog(@"changed");
+    if (_searchBar.text.length == 0) {
+//        [self setSearchControllerHidden:YES]; //控制下拉列表的隐现
+    }else{
+        [self loadData:_searchBar.text];
+        
+    }
+} /*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -155,5 +166,18 @@
     // Pass the selected object to the new view controller.
 }
 */
-
+-(void)loadData:(NSString*)productName;
+{
+   
+    NSString* url = [NSString stringWithFormat:@"%@?productName=%@&keywords=%@&categoryId=%@&pageNo=%d&pageSize=%d",[APIAddress ApiGetProductListByCond],productName,productName,@"04d41149fdad4ac2820e0dbc502da5d0",1,50];
+    
+    DLog(@"url = %@",url);
+    [HttpClient asynchronousRequestWithProgress:url parameters:nil successBlock:^(BOOL success, id data, NSString *msg) {
+        DLog(@"data = %@",data);
+    } failureBlock:^(NSString *description) {
+        DLog(@"data = %@",description);
+    } progressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+        
+    }];
+}
 @end

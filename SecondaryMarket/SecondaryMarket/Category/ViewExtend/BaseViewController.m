@@ -17,10 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.tableview =[[UITableView alloc] initWithFrame:self.view.bounds];
-    self.tableview.delegate = self;
-    self.tableview.dataSource = self;
-    [self.view addSubview:self.tableview];
+    
 }
 
 - (void)didReceiveMemoryWarning {

@@ -19,6 +19,11 @@
     // Do any additional setup after loading the view from its nib.
     self.title = @"系统信息";
     self.SystemMsgCellNib = [UINib nibWithNibName:@"SystemMsgCell" bundle:nil];
+    
+    self.tableview =[[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)- 44 -64 - 64)];
+    self.tableview.delegate = self;
+    self.tableview.dataSource = self;
+    [self.view addSubview:self.tableview];
 }
 
 - (void)didReceiveMemoryWarning {

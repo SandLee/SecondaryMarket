@@ -20,8 +20,10 @@
 {
     YIFullScreenScroll* _fullScreenDelegate;
 }
-@property (nonatomic, strong) XHNavigationControllerDelegate *navigationControllerDelegate;
-@property (nonatomic,assign)int lastPosition;
+@property (nonatomic, strong) XHNavigationControllerDelegate *navigationControllerDelegate;@property (nonatomic,assign)int lastPosition;
+
+
+@property (nonatomic,strong)NSString* HomeViewKey;
 @end
 
 @implementation PintersetHomeViewController
@@ -31,17 +33,17 @@
 - (XHNavigationControllerDelegate *)navigationControllerDelegate {
     return _navigationControllerDelegate;
 }
-- (NSMutableArray *)items {
-    if (!_items) {
-        _items = [NSMutableArray array];
-        for (NSInteger i = 1; i <= XH_CELL_COUNT; i++) {
-            XHPinterest *pinterest = [[XHPinterest alloc] initWithImageName:[NSString stringWithFormat:@"%ld.jpeg", (long)i]
-                                                                      title:[NSString stringWithFormat:@"Jack is cool man Jack is cJack is cool man Jack is cJack is cool man Jack is cJack is cool man Jack is cJack is cool man Jack is cJack is cool man Jack is c: %ld", (long)i]];
-            [_items addObject:pinterest];
-        }
-    }
-    return _items;
-}
+//- (NSMutableArray *)items {
+//    if (!_items) {
+//        _items = [NSMutableArray array];
+//        for (NSInteger i = 1; i <= XH_CELL_COUNT; i++) {
+//            XHPinterest *pinterest = [[XHPinterest alloc] initWithImageName:[NSString stringWithFormat:@"%ld.jpeg", (long)i]
+//                                                                      title:[NSString stringWithFormat:@"Jack is cool man Jack is cJack is cool man Jack is cJack is cool man Jack is cJack is cool man Jack is cJack is cool man Jack is cJack is cool man Jack is c: %ld", (long)i]];
+//            [_items addObject:pinterest];
+//        }
+//    }
+//    return _items;
+//}
 
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
@@ -52,7 +54,7 @@
         layout.minimumInteritemSpacing = 10;
         
         _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
-        _collectionView.frame = CGRectMake(0, 0, 320, 568);
+        _collectionView.frame = CGRectMake(0, 20, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)+49);
         _collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
@@ -76,21 +78,22 @@
     // Do any additional setup after loading the view from its nib.
     
  
-//    if (IOS_VERSION>=7.0) {
-//        self.edgesForExtendedLayout = UIRectEdgeNone;
-//    }
+    if (IOS_VERSION>=7.0) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     if (!_navigationControllerDelegate) {
         _navigationControllerDelegate = [[XHNavigationControllerDelegate alloc] initWithNavigationController:self.navigationController panGestureRecognizerEnable:NO];
     }
     
+    _items = [NSMutableArray array];
     self.navigationController.navigationBarHidden = YES;
     self.fullScreenScroll = [[YIFullScreenScroll alloc] initWithViewController:self scrollView:self.collectionView style:YIFullScreenScrollStyleFacebook];
     self.fullScreenScroll.shouldShowUIBarsOnScrollUp = YES;
     self.fullScreenScroll.DonotshowtopNavNavigationBar = YES;
-//    [self.fullScreenScroll viewWillAppear:YES];
+    [self.fullScreenScroll viewWillAppear:YES];
     [self.view addSubview:self.collectionView];
     
-    UIImageView* imageview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 24)];
+    UIImageView* imageview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 24)];
     imageview.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:imageview];
     // top
@@ -109,13 +112,17 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
-    _collectionView.frame = CGRectMake(0, 0, 320, 568);
-    self.navigationController.navigationBarHidden = YES;
+    AppDelegate *delegate=(AppDelegate*)[[UIApplication sharedApplication]delegate];
+    delegate.bHomePageSkipDetails = YES;
+//    _collectionView.frame = CGRectMake(0, 0, 320, 568);
+//    self.navigationController.navigationBarHidden = YES;
+    
+    [self loadData];
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
-    _collectionView.frame = CGRectMake(0, 0, 320, 568);
+//    _collectionView.frame = CGRectMake(0, 0, 320, 568);
 //    self.navigationController.navigationBarHidden = NO;
     [super viewWillDisappear:animated];
 }
@@ -166,6 +173,7 @@
 #pragma mark - UICollectionView DataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    DLog(@"count = %ld",(long)self.items.count);
     return self.items.count;
 }
 
@@ -176,7 +184,7 @@
     [cell setupPintersetHomeCell];
     cell.indexPath = indexPath;
     cell.pinterest = self.items[indexPath.row];
-    cell.descriptionLab.text = @"function:-[PintersetHomeViewController collectionView:layout:sizeForItemAtIndexPath:] line:137 content:-[PintersetHomeViewController ";
+    cell.descriptionLab.text = [[self.data objectAtIndex:indexPath.row] objectForKey:@"name"];
     cell.icon1Num.text = @"1";
     cell.icon2Num.text = @"2";
     return cell;
@@ -187,12 +195,12 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     XHPinterest *currentPinterest = self.items[indexPath.row];
-    CGFloat imageHeight = currentPinterest.image.size.height * KXHGridItemWidth / currentPinterest.image.size.width;
+    CGFloat imageHeight = [[currentPinterest.imageSize  objectForKey:@"height"] floatValue] * KXHGridItemWidth/[[currentPinterest.imageSize  objectForKey:@"width"] floatValue];//currentPinterest.image.size.height * KXHGridItemWidth / currentPinterest.image.size.width;
     
-    DLog(@"currentPinterest.image.size = %@ imageHeight = %f",NSStringFromCGSize(currentPinterest.image.size),imageHeight);
-    CGSize size = CGSizeMake(KXHGridItemWidth,2000);
-    
-    UIFont *font = [UIFont boldSystemFontOfSize:14];
+//    DLog(@"currentPinterest.image.size = %@ imageHeight = %f",NSStringFromCGSize(currentPinterest.image.size),imageHeight);
+//    CGSize size = CGSizeMake(KXHGridItemWidth,2000);
+//    
+//    UIFont *font = [UIFont boldSystemFontOfSize:14];
 //    CGSize labelsize = [currentPinterest.title sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByCharWrapping];
     imageHeight += 115 ;
  
@@ -206,13 +214,14 @@
 - (void)viewWillAppearWithPageIndex:(NSInteger)pageIndex {
     UICollectionViewScrollPosition position = UICollectionViewScrollPositionCenteredVertically & UICollectionViewScrollPositionCenteredHorizontally;
     XHPinterest *pinterest = self.items[pageIndex];
-    CGFloat imageHeight = pinterest.image.size.height * KXHGridItemWidth / pinterest.image.size.width;
+    CGFloat imageHeight = [[pinterest.imageSize  objectForKey:@"height"] floatValue] * KXHGridItemWidth/[[pinterest.imageSize  objectForKey:@"width"] floatValue];//pinterest.image.size.height * KXHGridItemWidth / pinterest.image.size.width;
     if (imageHeight > 400) {
         position = UICollectionViewScrollPositionTop;
     }
     NSIndexPath *currentIndexPath = [NSIndexPath indexPathForRow:pageIndex inSection:0];
 //    [self.collectionView setCurrentIndexPath:currentIndexPath];
-    [self.collectionView setCurrentIndexPath:self.collectionView indexPath:currentIndexPath];
+    self.HomeViewKey = [NSString stringWithFormat:@"%@+%ld",@"PintersetHomeViewController",(long)currentIndexPath.row];
+    [self.collectionView setCurrentIndexPath:self.HomeViewKey indexPath:currentIndexPath];
     if (pageIndex < 2) {
         [self.collectionView setContentOffset:CGPointZero animated:NO];
     } else {
@@ -223,33 +232,37 @@
 - (UICollectionView *)transitionCollectionView {
     return self.collectionView;
 }
-
+-(NSString*) GetCollectionKey
+{
+    return self.HomeViewKey;
+}
 #pragma mark - UICollectionView Delegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    self.navigationController.navigationBarHidden = NO;
+//    self.navigationController.navigationBarHidden = NO;
     
     PinteretDetailsViewController *PinteretDetailsView = [[PinteretDetailsViewController alloc] initWithCollectionViewFlowLayout:[self pageViewControllerLayout] currentIndexPath:indexPath];
     
     PinteretDetailsView.items = self.items;
-    
+    PinteretDetailsView.DetailsKey = [NSString stringWithFormat:@"%@+%ld",@"PinteretDetails",(long)indexPath.row];
 //    [collectionView setCurrentIndexPath:indexPath];
-    [collectionView setCurrentIndexPath:collectionView indexPath:indexPath];
-    
+    [collectionView setCurrentIndexPath:PinteretDetailsView.DetailsKey indexPath:indexPath];
+//    self.navigationController.navigationBarHidden = NO;
+//    self.tabBarController.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:PinteretDetailsView animated:YES];
 }
 
 - (UICollectionViewFlowLayout *)pageViewControllerLayout {
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    CGSize itemSize = self.navigationController.navigationBarHidden ? (CGSizeMake(kXHScreenWidth, CGRectGetHeight(kXHScreen) + 20)) : (CGSizeMake(kXHScreenWidth, CGRectGetHeight(kXHScreen) - 64));
+    CGSize itemSize = self.navigationController.navigationBarHidden ? (CGSizeMake(kXHScreenWidth, CGRectGetHeight(kXHScreen) + 20 )) : (CGSizeMake(kXHScreenWidth, CGRectGetHeight(kXHScreen) - 64));
     DLog(@"itemsize = %@",NSStringFromCGSize(itemSize));
     flowLayout.itemSize = itemSize;
     flowLayout.minimumInteritemSpacing = 0;
     flowLayout.minimumLineSpacing = 0;
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
    
-    DLog(@"flowLayout.itemSize = %@",NSStringFromCGSize(flowLayout.itemSize));
+//    DLog(@"flowLayout.itemSize = %@",NSStringFromCGSize(flowLayout.itemSize));
     return flowLayout;
 }
 
@@ -349,5 +362,31 @@
         }
     }
     
+}
+-(void)loadData
+{
+    NSString* url = [NSString stringWithFormat:@"%@?gisLongitude=114.173881&gisDimension=22.299439&pageNo=1&pageSize=50",[APIAddress ApiSearchProductList]];
+    DLog(@"url = %@",url);
+    [HttpClient asynchronousRequestWithProgress:url parameters:nil successBlock:^(BOOL success, id data, NSString *msg) {
+        DLog(@"data = %@",data );
+        self.data = data;
+        [_items removeAllObjects];
+        for (NSInteger i = 0; i < [data count]; i++) {
+            
+            NSString* src = [[data objectAtIndex:i] objectForKey:@"src"];
+            if (src.length == 0) {
+                continue;
+            }
+            XHPinterest *pinterest = [[XHPinterest alloc] initWithImageName:[[self.data objectAtIndex:i] objectForKey:@"src"]
+                                                                      title:[[self.data objectAtIndex:i] objectForKey:@"name"] imageSize:[NSDictionary dictionaryWithObjectsAndKeys:[[self.data objectAtIndex:i] objectForKey:@"coverImgWidth"],@"width",[[self.data objectAtIndex:i] objectForKey:@"coverImgHeight"],@"height" ,nil]];
+            [_items addObject:pinterest];
+        }
+
+        [self.collectionView reloadData];
+    } failureBlock:^(NSString *description) {
+        DLog(@"description = %@",description);
+    } progressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+        
+    }];
 }
 @end

@@ -86,7 +86,7 @@ static NSMutableArray* _userData2;
         NSString *url = [NSString stringWithFormat:@"%@?mobile=%@&captcha=%@",[APIAddress ApiCheckCaptcha],_phone,self.verifyCodeField.text];
         DLog(@"url = %@",url);
         [HttpClient asynchronousCommonJsonRequestWithProgress:url parameters:nil successBlock:^(BOOL success, id data, NSString *msg) {
-            if ([[data objectForKey:@"result"] intValue] == 1)
+            if([data objectForKey:@"code"] &&[[[data objectForKey:@"code"] substringFromIndex:2] intValue]==1)
             {
                 NSLog(@"验证成功");
                 NSString* str=[NSString stringWithFormat:@"验证码正确"];
@@ -149,7 +149,8 @@ static NSMutableArray* _userData2;
             NSString* url = [NSString stringWithFormat:@"%@?mobile=%@",[APIAddress ApiSendSMSCaptcha],_phone];
             DLog(@"url = %@",url);
             [HttpClient asynchronousCommonJsonRequestWithProgress:url parameters:nil successBlock:^(BOOL success, id data, NSString *msg) {
-                if ([[data objectForKey:@"result"] intValue] == 1) {
+                if([data objectForKey:@"code"] &&[[[data objectForKey:@"code"] substringFromIndex:2] intValue]==1)
+                {
                     
                 }
                 else
@@ -176,10 +177,23 @@ static NSMutableArray* _userData2;
     if (alertView==_alert2) {
         if (0==buttonIndex)
         {
-            [self dismissViewControllerAnimated:YES completion:^{
-                [_timer2 invalidate];
-                [_timer1 invalidate];
-            }];
+            NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+            NSString* string = [defaults objectForKey:@"RegisterAndChange"];
+            if ([string isEqualToString:@"UserRegistration"]) {
+                [self dismissViewControllerAnimated:YES completion:^{
+                    [_timer2 invalidate];
+                    [_timer1 invalidate];
+                }];
+            }
+            else if ([string isEqualToString:@"ForgotPassword"])
+            {
+                [self dismissViewControllerAnimated:YES completion:^{
+                    [_timer2 invalidate];
+                    [_timer1 invalidate];
+                }];
+            }
+
+            
         }
     }
     

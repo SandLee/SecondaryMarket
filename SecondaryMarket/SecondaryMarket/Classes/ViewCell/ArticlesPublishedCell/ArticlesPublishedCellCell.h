@@ -11,4 +11,5 @@
 @interface ArticlesPublishedCellCell : UITableViewCell
 @property(nonatomic,strong)IBOutlet UILabel* titleLabel;
 @property(nonatomic,strong)IBOutlet UITextField* textField;
+//@property(nonatomic,assign) id<TSLocateDelegate> delegate;
 @end

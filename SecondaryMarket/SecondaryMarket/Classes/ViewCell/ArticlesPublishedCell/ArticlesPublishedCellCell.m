@@ -9,9 +9,10 @@
 #import "ArticlesPublishedCellCell.h"
 
 @implementation ArticlesPublishedCellCell
-
+//@synthesize delegate;
 - (void)awakeFromNib {
     // Initialization code
+ 
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -19,5 +20,17 @@
 
     // Configure the view for the selected state
 }
-
+//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+//{
+//    [self cancelLocatePicker];
+//    
+//    return YES;
+//}
+//-(void)cancelLocatePicker
+//{
+//    if(delegate &&
+//       [delegate respondsToSelector:@selector(cancelLocatePicker:)]){
+//        [delegate performSelector:@selector(cancelLocatePicker:) withObject:nil];
+//    }
+//}
 @end

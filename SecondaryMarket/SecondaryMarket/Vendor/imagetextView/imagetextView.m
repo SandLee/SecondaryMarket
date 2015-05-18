@@ -52,7 +52,8 @@
 - (void)setDisplayPinterest:(XHPinterest *)displayPinterest {
     _displayPinterest = displayPinterest;
     
-    self.image.image = displayPinterest.image;
+//    self.image.image = displayPinterest.image;
+    [self.image setImageWithURL:[NSURL URLWithString:displayPinterest.imageURL]];
     self.titlelabel.text = displayPinterest.title;
 //    self..text = displayPinterest.title;
 }

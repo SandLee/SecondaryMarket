@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BaseViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
-@property(nonatomic,strong)UITableView* tableview;
+@interface BaseViewController : UIViewController
 - (void)viewDidCurrentView;
 @end

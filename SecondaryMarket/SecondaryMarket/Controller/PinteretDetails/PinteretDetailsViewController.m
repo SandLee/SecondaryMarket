@@ -14,6 +14,11 @@
 #import "AppDelegate.h"
 #import "XHPinterest.h"
 
+
+
+//测试
+#import "PintersetHomeCell.h"
+
 #define kXHHorizontalPageViewCellIdentify @"XHHorizontalPageViewCellIdentify"
 @interface PinteretDetailsViewController ()
 {
@@ -23,7 +28,11 @@
 
 @property (nonatomic, strong) NSIndexPath *indexPath;
 
+@property (nonatomic, strong) NSIndexPath *skipIndexPath;
+
 @property (nonatomic, strong) UICollectionViewFlowLayout *collectionViewFlowLayout;
+
+
 @end
 
 @implementation PinteretDetailsViewController
@@ -32,7 +41,8 @@
 - (UICollectionView *)collectionView {
     if (!_collectionView){
         _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:self.collectionViewFlowLayout];
-        _collectionView.frame = CGRectMake(0, -64, 320, 568+64);
+//        _collectionView.frame = CGRectMake(0, -64, 320, 568+64);
+        DLog(@"self.bound = %@",NSStringFromCGRect(self.view.bounds));
         [_collectionView setScrollsToTop:NO];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
@@ -42,12 +52,16 @@
         _collectionView.pagingEnabled = YES;
         [_collectionView registerClass:[PintersetDetailsCell class] forCellWithReuseIdentifier:kXHHorizontalPageViewCellIdentify];
 //        [_collectionView setCurrentIndexPath:self.indexPath];
-        [_collectionView setCurrentIndexPath:_collectionView indexPath:self.indexPath];
-        
+//        self.DetailsKey = [NSString stringWithFormat:@"%@%ld",@"PinteretDetails",(long)self.indexPath.row];
+        [_collectionView setCurrentIndexPath:self.DetailsKey indexPath:self.indexPath];
+        DLog(@"row = %ld",(long)self.indexPath.row);
         [_collectionView performBatchUpdates:^{
+//            [self loadData];
             [_collectionView reloadData];
+//            [_collectionView reloadSections:[NSIndexSetindexSetWithIndex:0]];
         } completion:^(BOOL finished) {
             if (finished) {
+                
                 [self.collectionView scrollToItemAtIndexPath:self.indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
             }
         }];
@@ -64,7 +78,7 @@
         self.pullOffset = CGPointZero;
         self.collectionViewFlowLayout = collectionViewFlowLayout;
         self.indexPath = indexPath;
-        
+        DLog(@"row = %ld",(long)self.indexPath.row);
     }
     return self;
 }
@@ -80,7 +94,7 @@
     if (IOS_VERSION>=7.0) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
+    self.navigationController.navigationBarHidden = NO;
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [leftButton setFrame:CGRectMake(0, 7, 40, 30)];
     [leftButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -95,7 +109,7 @@
     self.title = @"商品详情";
     [self.view addSubview:self.collectionView];
     
-    UIImageView* imageview = [[UIImageView alloc] initWithFrame:CGRectMake(0, -64, 320, 24)];
+    UIImageView* imageview = [[UIImageView alloc] initWithFrame:CGRectMake(0, -64, CGRectGetWidth(self.view.bounds), 24)];
     imageview.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:imageview];
 //    [(UIScrollView*)self.collectionView setContentInset:<#(UIEdgeInsets)#>]
@@ -121,8 +135,15 @@
     [super viewWillAppear:animated];
 //    _collectionView.frame = CGRectMake(0, -64, 320, 568+64);
     
-    self.navigationController.navigationBarHidden = NO;
+//    self.navigationController.navigationBarHidden = NO;
 //    _collectionView.frame = CGRectMake(0, -78, 320, 568+64);
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+//    self.navigationController.navigationBarHidden = NO;
+//    _collectionView.frame = CGRectMake(0, 20, 320, 588);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -143,18 +164,32 @@
 }
 
 - (UICollectionView *)transitionCollectionView {
+    
+//    return self.collectionView;
+    
     AppDelegate *delegate=(AppDelegate*)[[UIApplication sharedApplication]delegate];
     if (delegate.bHomePageSkipDetails) {
         return self.collectionView;
     }
     else
     {
-        PintersetDetailsCell *collectionCell = (PintersetDetailsCell *)[self.collectionView cellForItemAtIndexPath:self.indexPath];
+        PintersetDetailsCell *collectionCell = (PintersetDetailsCell *)[self.collectionView cellForItemAtIndexPath:self.skipIndexPath];
         
+//        PintersetHomeCell *cell = (PintersetHomeCell*)[self.collectionCell.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+//        DLog(@"cell = %@ row = %ld",[collectionCell.collectionView cellForItemAtIndexPath:self.indexPath],(long)self.indexPath.row);
+        for (int i = 0 ; i < [self.collectionView numberOfItemsInSection:0]; i ++) {
+            PintersetHomeCell *cell =
+            (PintersetHomeCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+            DLog(@"row = %ld cell_%d = %@",(long)self.skipIndexPath.row,i,cell);
+        }
+//        return self.collectionCell.collectionView;
         return collectionCell.collectionView;
     }
 }
-
+-(NSString*) GetCollectionKey
+{
+    return self.DetailsKey;
+}
 #pragma mark - UIScrollView Delegate
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -163,7 +198,7 @@
     
     if (index == 0) {
         self.indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-        [self.collectionView setCurrentIndexPath:self.collectionView indexPath:self.indexPath];
+        [self.collectionView setCurrentIndexPath:self.DetailsKey indexPath:self.indexPath];
         
     }
 }
@@ -180,22 +215,28 @@
 #pragma mark - UICollectionView DataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    NSLog(@"count = %d",self.items.count);
     return self.items.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    PintersetDetailsCell *collectionCell = (PintersetDetailsCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kXHHorizontalPageViewCellIdentify forIndexPath:indexPath];
-    [collectionCell setDetailsCell];
+    self.collectionCell = (PintersetDetailsCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kXHHorizontalPageViewCellIdentify forIndexPath:indexPath];
+    
+//    _collectionView.frame = CGRectMake(0, -44, 320, 588);
+    
+    [self.collectionCell setDetailsCell];
+//    self.collectionCell.collectionView.frame = self.view.bounds;
+    self.DetailsKey = [NSString stringWithFormat:@"%@+%ld",@"PinteretDetails",(long)indexPath.row];
+//    self.indexPath = indexPath;
+    self.skipIndexPath = indexPath;
     /**
      隐藏tabbar 和navbar
      
      :returns: <#return value description#>
      */
     
-    DLog(@"row = %d",indexPath.row);
+    DLog(@"row = %ld",(long)indexPath.row);
     
-    self.fullScreenScroll = [[YIFullScreenScroll alloc] initWithViewController:self scrollView:collectionCell.collectionView style:YIFullScreenScrollStyleFacebook];
+    self.fullScreenScroll = [[YIFullScreenScroll alloc] initWithViewController:self scrollView:self.collectionCell.collectionView style:YIFullScreenScrollStyleFacebook];
     self.fullScreenScroll.shouldShowUIBarsOnScrollUp = YES;
     self.fullScreenScroll.DonotshowtopNavNavigationBar = YES;
     [self.fullScreenScroll viewWillAppear:YES];
@@ -203,33 +244,33 @@
     
 //    collectionCell.delegate = self;
     
-    collectionCell.pinterest = self.items[indexPath.row];
-    
-    collectionCell.didSelectedSubItemAction = ^(UICollectionView* collection,XHPinterest *currentPinterest,NSIndexPath* indexPath) {
+    self.collectionCell.pinterest = self.items[indexPath.row];
+    __weak typeof(self) weakSelf = self;
+    self.collectionCell.didSelectedSubItemAction = ^(UICollectionView* collection,XHPinterest *currentPinterest,NSIndexPath* indexPath) {
         
-        //new
-        AppDelegate *delegate=(AppDelegate*)[[UIApplication sharedApplication]delegate];
-        delegate.bHomePageSkipDetails = NO;
-        PinteretDetailsViewController *PinteretDetails = [[PinteretDetailsViewController alloc] initWithCollectionViewFlowLayout:[self pageViewControllerLayout] currentIndexPath:indexPath];
-        
-        PinteretDetails.items = self.items;
-        
-        //    [collectionView setCurrentIndexPath:indexPath];
-        [collection setCurrentIndexPath:collectionView indexPath:indexPath];
-        [self.navigationController pushViewController:PinteretDetails animated:YES];
+//        //new
+//        AppDelegate *delegate=(AppDelegate*)[[UIApplication sharedApplication]delegate];
+//        delegate.bHomePageSkipDetails = NO;
+//        PinteretDetailsViewController *PinteretDetails = [[PinteretDetailsViewController alloc] initWithCollectionViewFlowLayout:[weakSelf pageViewControllerLayout] currentIndexPath:indexPath];
+//        PinteretDetails.DetailsKey = [NSString stringWithFormat:@"%@+%ld",@"PinteretDetails",(long)indexPath.row];
+//        PinteretDetails.items = weakSelf.items;
+//        
+//        //    [collectionView setCurrentIndexPath:indexPath];
+//        [collection setCurrentIndexPath:PinteretDetails.DetailsKey indexPath:indexPath];
+//        [weakSelf.navigationController pushViewController:PinteretDetails animated:YES];
         
     };
 //    self.fullScreenScroll = nil;
-    __weak typeof(self) weakSelf = self;
-    collectionCell.pullDownAction = ^(CGPoint offset) {
+    
+    self.collectionCell.pullDownAction = ^(CGPoint offset) {
         weakSelf.pullOffset = offset;
         weakSelf.navigationController.navigationBarHidden = YES;
         [weakSelf.navigationController popViewControllerAnimated:YES];
     };
-    [collectionCell setNeedsDisplay];
+    [self.collectionCell setNeedsDisplay];
     
     
-    return collectionCell;
+    return self.collectionCell;
 }
 
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
@@ -266,8 +307,8 @@
  */
 - (UICollectionViewFlowLayout *)pageViewControllerLayout {
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    CGSize itemSize = self.navigationController.navigationBarHidden ? (CGSizeMake(kXHScreenWidth, CGRectGetHeight(kXHScreen) + 20)) : (CGSizeMake(kXHScreenWidth, CGRectGetHeight(kXHScreen) - 64));
-    DLog(@"itemsize = %@",NSStringFromCGSize(itemSize));
+    CGSize itemSize = CGSizeMake(kXHScreenWidth, CGRectGetHeight(kXHScreen) + 20);//self.navigationController.navigationBarHidden ? (CGSizeMake(kXHScreenWidth, CGRectGetHeight(kXHScreen) + 20)) : (CGSizeMake(kXHScreenWidth, CGRectGetHeight(kXHScreen) - 64));
+    DLog(@"wxyitemsize = %@",NSStringFromCGSize(itemSize));
     flowLayout.itemSize = itemSize;
     flowLayout.minimumInteritemSpacing = 0;
     flowLayout.minimumLineSpacing = 0;
@@ -282,19 +323,38 @@
     UICollectionViewScrollPosition position = UICollectionViewScrollPositionCenteredVertically & UICollectionViewScrollPositionCenteredHorizontally;
     XHPinterest *pinterest = self.items[pageIndex];
     
-    CGFloat imageHeight = pinterest.image.size.height * KXHGridItemWidth / pinterest.image.size.width;
+    CGFloat imageHeight = [[pinterest.imageSize  objectForKey:@"height"] floatValue] * KXHGridItemWidth/[[pinterest.imageSize  objectForKey:@"width"] floatValue];//pinterest.image.size.height * KXHGridItemWidth / pinterest.image.size.width;
     if (imageHeight > 400) {
         position = UICollectionViewScrollPositionTop;
     }
     NSIndexPath *currentIndexPath = [NSIndexPath indexPathForRow:pageIndex inSection:0];
-    PintersetDetailsCell *collectionCell = (PintersetDetailsCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
-    [collectionCell.collectionView setCurrentIndexPath:collectionCell.collectionView indexPath:currentIndexPath];
+    DLog(@"row = %ld",(long)currentIndexPath.row);
+//    PintersetDetailsCell *collectionCell = (PintersetDetailsCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
+    self.DetailsKey = [NSString stringWithFormat:@"%@+%ld",@"PinteretDetails",(long)currentIndexPath.row];
+    [self.collectionCell.collectionView setCurrentIndexPath:self.DetailsKey indexPath:currentIndexPath];
     if (pageIndex < 2) {
-        [collectionCell.collectionView setContentOffset:CGPointZero animated:NO];
+        [self.collectionCell.collectionView setContentOffset:CGPointZero animated:NO];
     } else {
         
         
-        [collectionCell.collectionView scrollToItemAtIndexPath:currentIndexPath atScrollPosition:position animated:NO];
+        [self.collectionCell.collectionView scrollToItemAtIndexPath:currentIndexPath atScrollPosition:position animated:NO];
     }
 }
+
+-(void)loadData
+{
+    NSString* url = [NSString stringWithFormat:@"%@?productId=%@",[APIAddress ApiSearchProductInfoById],/*self.productId*/@"05a89cb4678e40958e2a"];
+    DLog(@"url = %@",url);
+    [HttpClient asynchronousRequestWithProgress:url parameters:nil successBlock:^(BOOL success, id data, NSString *msg) {
+        DLog(@"data = %@",data);
+    } failureBlock:^(NSString *description) {
+        DLog(@"失败");
+    } progressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+        
+    }];
+}
+
+
+
+
 @end

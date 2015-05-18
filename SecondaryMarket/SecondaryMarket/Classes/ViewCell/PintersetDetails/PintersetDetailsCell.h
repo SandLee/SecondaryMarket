@@ -44,6 +44,7 @@ typedef void(^XHDidSelectedSubItemAction)(UICollectionView* collection,XHPintere
 
 @property (nonatomic, strong)PinteretDetailsViewController* PinteretDetails;
 
+@property (nonatomic, strong) NSMutableArray *data;
 
 @property (nonatomic,strong)NSIndexPath* indexPath;
 -(void)setDetailsCell;

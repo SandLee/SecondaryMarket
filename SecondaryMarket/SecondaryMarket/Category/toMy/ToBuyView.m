@@ -27,7 +27,7 @@
         UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
         self.collectionView = [[UICollectionView alloc]initWithFrame:frame collectionViewLayout:flowLayout];
-        
+        self.collectionView.backgroundColor = [UIColor whiteColor];
         //设置代理
         self.collectionView.delegate = self;
         self.collectionView.dataSource = self;
@@ -42,7 +42,7 @@
 //定义展示的UICollectionViewCell的个数
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 30;
+    return 10;
 }
 //定义展示的Section的个数
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -67,7 +67,7 @@
 //定义每个UICollectionView 的 margin
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(5, 5, 5, 5);
+    return UIEdgeInsetsMake(5, 10, 5, 5);
 }
 #pragma mark --UICollectionViewDelegate
 //UICollectionView被选中时调用的方法

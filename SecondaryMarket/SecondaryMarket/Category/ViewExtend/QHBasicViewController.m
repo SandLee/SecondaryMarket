@@ -40,7 +40,7 @@
     [super viewDidLoad];
     
 //    self.view.backgroundColor = RGBA(236.f, 236.f, 236.f, 1);
-    _statusBarView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320, 0.f)];
+    _statusBarView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f, 0.f, CGRectGetWidth(self.view.bounds), 0.f)];
     _nSpaceNavY = 20;
     if (IOS_VERSION >= 7 && __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_6_1)
     {
@@ -62,7 +62,7 @@
     [self reloadImage];
     
     /* { 导航条 } */
-    _navView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f, StatusbarSize, 320, 44.f)];
+    _navView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f, StatusbarSize, CGRectGetWidth(self.view.bounds), 44.f)];
     ((UIImageView *)_navView).backgroundColor = [UIColor clearColor];
     [self.view addSubview:_navView];
     _navView.userInteractionEnabled = YES;

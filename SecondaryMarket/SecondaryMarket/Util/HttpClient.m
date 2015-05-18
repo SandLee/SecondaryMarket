@@ -12,6 +12,8 @@
 
 +(void)asynchronousRequestWithProgress:(NSString *)url parameters:(NSDictionary *)parameters successBlock:(RequestSuccessBlock)successBlock failureBlock:(RequestFailedBlock)failureBlock progressBlock:(progressBlock)progressBlock
 {
+    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    DLog(@"url = %@",url);
     NSError *error;
     AFHTTPRequestSerializer *requestSerializer=[[AFHTTPRequestSerializer alloc] init];
     NSMutableURLRequest *request=[requestSerializer requestWithMethod:@"POST" URLString:url parameters:parameters error:&error];
@@ -37,7 +39,7 @@
         NSError *error;
         NSDictionary *json=[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:&error];
         if(!error){
-            successBlock(YES,json,@"");
+//            successBlock(YES,json,@"");
             if([json objectForKey:@"code"] &&[[[json objectForKey:@"code"] substringFromIndex:2]  intValue]==1){
                 successBlock(YES,[json objectForKey:@"data"],@"");
             }else{
@@ -63,10 +65,10 @@
 +(void)asynchronousRequestUploadWithProgress:(NSString *)url parameters:(NSDictionary *)parameters files:(NSArray *)files successBlock:(RequestSuccessBlock)successBlock failureBlock:(RequestFailedBlock)failureBlock progressBlock:(progressBlock)progressBlock
 {
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-//        for(NSObject * obj in files){
-//            MImageFile * file = (MImageFile * )obj;
-//            [formData appendPartWithFileURL:[NSURL fileURLWithPath:file.filePath] name:file.formName fileName:file.fileName mimeType:file.mimeType error:nil];
-//        }
+        for(NSObject * obj in files){
+            MImageFile * file = (MImageFile * )obj;
+            [formData appendPartWithFileURL:[NSURL fileURLWithPath:file.filePath] name:file.formName fileName:file.fileName mimeType:file.mimeType error:nil];
+        }
         
     } error:nil];
     
@@ -86,6 +88,8 @@
         } else {
             json=[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:&nsError];
         }
+            
+            DLog(@"json = %@",json);
         if(!nsError){
             if([json objectForKey:@"code"] &&[[[json objectForKey:@"code"] substringFromIndex:2] intValue]==1){
                 successBlock(YES,[json objectForKey:@"data"],@"");
